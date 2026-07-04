@@ -14,6 +14,10 @@ public class AlarmaDeReservaCritica implements Observador {
         this.bateriaASupervisar = bateriaASupervisar;
     }
 
+    public String getUltimaAdvertenciaRegistrada() {
+        return this.ultimaAdvertenciaRegistrada;
+    }
+
     public void agregarBateria(BateriaDeAlmacenamiento unaBateria) {
         this.bateriaASupervisar = unaBateria;
         bateriaASupervisar.añadirObservador(this);
@@ -21,7 +25,9 @@ public class AlarmaDeReservaCritica implements Observador {
 
     public void comprobarDesbordamientoCritico(BateriaDeAlmacenamiento bateriaControlada) {
         if (bateriaControlada.getEnergiaActual() < this.umbralDeTolerancia) {
-            throw new UsoDeLimiteDeReservaException("Cuidado! Alerta de uso del limite de reserva de enegia de la bateria modificada de ID: "  + bateriaControlada.getId());
+            String advertenciaARegistrar = "Cuidado! Alerta de uso del limite de reserva de enegia de la bateria modificada de ID: "  + bateriaControlada.getId();
+            this.ultimaAdvertenciaRegistrada = advertenciaARegistrar;
+            throw new UsoDeLimiteDeReservaException(advertenciaARegistrar);
         }
     }
 
